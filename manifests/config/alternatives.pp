@@ -33,8 +33,8 @@ define jdk7::config::alternatives(
   }
   else {
     exec { "java alternatives ${title}":
-      command   => "${alt_command} --install /usr/bin/${title} ${title} ${java_home_dir}/${full_version}/bin/${title} ${priority}",
-      unless    => "${alt_command} --display ${title} | /bin/grep ${full_version}",
+      command   => "${alt_command} --install /usr/bin/${title} ${title} ${java_home_dir}/${full_version}/bin/${title} ${priority};${alt_command} --set ${title} ${java_home_dir}/${full_version}/bin/${title}",
+      unless    => "${alt_command} --display ${title} | /bin/grep 'link currently' | /bin/grep ${full_version}",
       path      => '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin',
       logoutput => true,
       loglevel  => verbose,
