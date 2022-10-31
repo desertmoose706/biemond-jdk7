@@ -23,8 +23,8 @@ define jdk7::config::alternatives(
 
   if $title == 'java_sdk' {
     exec { "java alternatives ${title}":
-      command   => "${alt_command} --install /etc/alternatives/${title} ${title} ${java_home_dir}/${full_version} ${priority}",
-      unless    => "${alt_command} --display ${title} | /bin/grep ${full_version}",
+      command   => "${alt_command} --install /etc/alternatives/${title} ${title} ${java_home_dir}/${full_version}/bin/${title} ${priority};${alt_command} --set ${title} ${java_home_dir}/${full_version}/bin/${title}",
+      unless    => "${alt_command} --display ${title} | /bin/grep 'link currently' | /bin/grep ${full_version}",
       path      => '/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin',
       logoutput => true,
       user      => $user,
